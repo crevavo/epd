@@ -95,7 +95,7 @@ def draw(dr_imgBlk, dr_imgRed):
 
     for _e in events:
         title = _e['title']
-        if title == '来客':
+        if title.startswith('来客'):
             start = _e['start']
             end = _e['end']
             if start <= dn <= end:
