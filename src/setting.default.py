@@ -5,6 +5,7 @@ from PIL import ImageFont
 # - Func setting -----
 debug = True
 dtnow = datetime.datetime(2023,3,8,11)
+visitormode = False
 
 
 # - Project setting -----

@@ -89,8 +89,9 @@ def draw(dr_imgBlk, dr_imgRed):
         location = ss.limitTextLength(e['location'], 15)
 
         # 来客モード Visitor mode
-        # title = title[0] + "******"
-        # location = "*****"
+        if ss.visitormode:
+            title = title[0] + "******"
+            location = "*****"
 
         dateStr = [start.day, start.strftime('%a'), e['calendar'][:2]]
         timeStr = ''
