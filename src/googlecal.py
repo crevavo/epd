@@ -91,7 +91,11 @@ def draw(dr_imgBlk, dr_imgRed):
     visitormode = ss.visitormode
 
     jst = pytz.timezone('Asia/Tokyo')
-    dn = jst.localize(ss.dtnow)
+    if ss.debug:
+        dn = jst.localize(ss.dtnow)
+    else:
+        dn = datetime.datetime.now()
+        dn = jst.localize(dn)
 
     for _e in events:
         title = _e['title']
