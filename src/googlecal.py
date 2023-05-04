@@ -106,6 +106,9 @@ def draw(dr_imgBlk, dr_imgRed):
                 visitormode = True
 
     for i in range(3):
+        if len(events) <= i:
+            continue
+
         e = events[i]
         px = ss.margin + ss.colWid * i
         py = 390
