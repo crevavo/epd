@@ -1,5 +1,6 @@
 import os, datetime, locale, json
 import setting as ss
+import raspifuncs
 
 # --- Date display ------------------
 def getHolidayName(dt = datetime.datetime.now() ):
@@ -39,7 +40,15 @@ def draw(dr_imgBlk, dr_imgRed):
     dtFormat = '%-m / %-d (%a)'
     # dr_imgBlk.text((s.margin + colWid*0, s.margin), dtnow.strftime(dtFormat), font = s.fontBL, fill = 0)
     # dr_imgBlk.text((s.margin + colWid*2, s.margin), dttmr.strftime(dtFormat), font = s.fontBL, fill = 0)
-    dr_imgRed.text((0, 512), 'LAST UPDATE: ' + dtnow.isoformat(), 0, ss.fontNSS)
+
+    footnotes = 'LAST UPDATE: ' + dtnow.strftime('%Y-%m-%d %H:%M:%S')
+    temp = raspifuncs.getCpuTemp()
+    if (temp > 60):
+        tempstr = f'■ {str(temp)} ℃ ■'
+    else:
+        tempstr = str(temp) + ' ℃'
+    footnotes = footnotes + ' / CPU: ' + tempstr
+    dr_imgRed.text((10, 512), footnotes, 0, ss.fontNSS)
 
     return dr_imgBlk, dr_imgRed
 
