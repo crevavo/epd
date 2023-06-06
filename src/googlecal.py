@@ -44,7 +44,8 @@ def getRequiredData(eventsList, calenderName):
                 'start': est,
                 'end': eed,
                 'isAllDay': isAllDay,
-                'location': loc
+                'location': loc,
+                'id': title + str(est) + str(eed)
         }
         events.append(d)
 
@@ -81,11 +82,29 @@ def getEvents():
         el = getRequiredData(eventlist, calId)
         events.extend(el)
 
-    events = sorted(events, key=lambda x: x['start'])
-    return events
+    # events = sorted(events, key=lambda x: x['start'])
+
+    # Remove events shared with calenderes
+    uniqFlag = []
+    uniqEvents = []
+    for e in events:
+        i = e['id']
+        if i not in uniqFlag:
+            uniqFlag.append(i)
+            uniqEvents.append(e)
+        else:
+            for u in uniqEvents:
+                if u['id'] == i:
+                    u['calendar'] = 'Family'
+
+    uniqEvents = sorted(uniqEvents, key=lambda x: x['start'])
+
+    return uniqEvents
 
 def draw(dr_imgBlk, dr_imgRed):
     events = getEvents()
+
+    
 
     # 来客モード Visitor mode
     visitormode = ss.visitormode
@@ -144,4 +163,7 @@ def draw(dr_imgBlk, dr_imgRed):
     return dr_imgBlk, dr_imgRed
 
 if __name__ == "__main__":
-    getEvents()
+    events = getEvents()
+
+    for e in events:
+        print(e['calendar'], e['title'])
