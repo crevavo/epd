@@ -94,3 +94,10 @@ def draw(dr_imgBlk, dr_imgRed, d):
         ss.textCenter(dr_imgBlk, (px + lcolWid/2, py+100), tempStr, 0, ss.fontNS)
 
     return dr_imgBlk, dr_imgRed
+
+if __name__ == "__main__":
+    data = getOWMdata()
+
+    print(json.dumps(data, indent=4))
+    with open('owm.json', 'w') as f:
+        json.dump(data, f, indent=4)
