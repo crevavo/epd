@@ -198,6 +198,7 @@ def draw(dr_imgBlk, dr_imgRed):
             end = _e['end']
             if start <= dn <= end:
                 visitormode = True
+                ss.visitormode = True
 
 
     dateStrPrev = ''
