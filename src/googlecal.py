@@ -78,7 +78,9 @@ def getEvents():
     service = googleapiclient.discovery.build('calendar', 'v3', credentials=gapi_creds)
 
     if ss.debug:
-        dtnow = ss.dtnow.isoformat() + 'Z'
+        dtnow = pytz.timezone('Asia/Tokyo').localize(ss.dtnow)
+        dtnow = dtnow.astimezone(pytz.timezone('UTC'))
+        dtnow = dtnow.replace(tzinfo=None).isoformat() + 'Z'
         # dtnow = datetime.datetime(2023,3,8,11).isoformat() + 'Z'
     else:
         dtnow = datetime.datetime.utcnow().isoformat() + 'Z'

@@ -10,7 +10,7 @@ import setting as ss
 
 def getTrainInfo(url):
     r = requests.get(url)
-    r.encoding = r.apparent_encoding
+    r.encoding = 'utf-8'
     soup = BeautifulSoup(r.text, 'html.parser')
 
     title = soup.select_one("h1.title").text
