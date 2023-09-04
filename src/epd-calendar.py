@@ -4,7 +4,7 @@ import sys, os, logging, traceback, time
 from PIL import Image,ImageDraw,ImageChops
 
 import setting as ss
-import owm, datedisp, garbagecal, googlecal
+import owm, datedisp, garbagecal, googlecal, train
 picdir, libdir, srcdir = ss.picdir, ss.libdir, ss.srcdir
 logging.basicConfig(level=logging.DEBUG)
 
@@ -33,12 +33,15 @@ try:
     # --- Google Calender ------------------
     dr_imgBlk, dr_imgRed = googlecal.draw(dr_imgBlk, dr_imgRed)
 
+    # --- Train info ------------------
+    if ss.visitormode:
+        dr_imgBlk, dr_imgRed = train.draw(dr_imgBlk, dr_imgRed)
+
     # - Wi-Fi QR code ---------------------
-    # if ss.debug:
-    #     qrcode = Image.open(os.path.join(picdir, 'qrcode.bmp'))
-    # else:
-    #     qrcode = Image.open(os.path.join(picdir, 'wifi.bmp'))
-    # imgBlk.paste(qrcode, (ss.epdWid-100, 0))
+    if ss.visitormode:
+        qrcode = Image.open(os.path.join(picdir, 'wifi.bmp'))
+        imgBlk.paste(qrcode, (700, 250))
+
 
     # - DEBUG img export ----------
     imgRGB = Image.new('RGB', (ss.epdWid, ss.epdHei), (255, 255, 255))
