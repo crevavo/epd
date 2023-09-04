@@ -212,7 +212,8 @@ def draw(dr_imgBlk, dr_imgRed):
         py = ss.margin + 75 * i
 
         # １イベントデータ
-        dateStr = e['start'].strftime('%-d\n%a')
+        dateStr = e['start'].strftime('%-d')
+        dowStr = e['start'].strftime('%a')
         calname = e['calendar'][:2].capitalize()
         start = e['start']
         end = e['end']
@@ -223,6 +224,11 @@ def draw(dr_imgBlk, dr_imgRed):
         if visitormode:
             titleStr = titleStr[0] + "******"
             locationStr = "*****"
+
+        if start.day == ss.dtnow.day:
+            dateStr = e['start'].strftime('今日')
+        elif start.day == ss.dtnow.day + 1:
+            dateStr = e['start'].strftime('明日')
 
         if dateStr == dateStrPrev:
             isSameDate = True
@@ -240,7 +246,13 @@ def draw(dr_imgBlk, dr_imgRed):
         # 描画
         # Col 1
         if not isSameDate:
-            dr_imgBlk.text((270, py), dateStr, 0, ss.fontBS, align='center')
+            if start.day == ss.dtnow.day:
+                dr_imgRed.text((290, py), dateStr, 0, ss.fontBS, align='center', anchor="ma")
+                dr_imgRed.text((290, py + 30), dowStr, 0, ss.fontNS, align='center', anchor="ma")
+            else:
+                dr_imgBlk.text((290, py), dateStr, 0, ss.fontBS, align='center', anchor="ma")
+                dr_imgBlk.text((290, py + 30), dowStr, 0, ss.fontNS, align='center', anchor="ma")
+
         dr_imgBlk.text((330, py), timeStr, 0, ss.fontNS)
         dr_imgBlk.text((410, py), calname, 0, ss.fontNS)
         dr_imgBlk.text((460, py), evntStr, 0, ss.fontNS)
