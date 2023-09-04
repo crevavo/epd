@@ -34,11 +34,11 @@ try:
     dr_imgBlk, dr_imgRed = googlecal.draw(dr_imgBlk, dr_imgRed)
 
     # - Wi-Fi QR code ---------------------
-    if ss.debug:
-        qrcode = Image.open(os.path.join(picdir, 'qrcode.bmp'))
-    else:
-        qrcode = Image.open(os.path.join(picdir, 'wifi.bmp'))
-    imgBlk.paste(qrcode, (ss.epdWid-100, 0))
+    # if ss.debug:
+    #     qrcode = Image.open(os.path.join(picdir, 'qrcode.bmp'))
+    # else:
+    #     qrcode = Image.open(os.path.join(picdir, 'wifi.bmp'))
+    # imgBlk.paste(qrcode, (ss.epdWid-100, 0))
 
     # - DEBUG img export ----------
     imgRGB = Image.new('RGB', (ss.epdWid, ss.epdHei), (255, 255, 255))
