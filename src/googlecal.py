@@ -202,7 +202,9 @@ def draw(dr_imgBlk, dr_imgRed):
 
     dateStrPrev = ''
     isSameDate = False
-    for i in range(5):
+    dispNum = 5 if not visitormode else 3
+
+    for i in range(dispNum):
         if len(events) <= i:
             continue
 
@@ -222,8 +224,8 @@ def draw(dr_imgBlk, dr_imgRed):
 
         # １イベントデータ調整
         if visitormode:
-            titleStr = titleStr[0] + "******"
-            locationStr = "*****"
+            titleStr = titleStr[0] + " *" * len(titleStr)
+            locationStr = " *" * len(locationStr)
 
         if start.day == ss.dtnow.day:
             dateStr = e['start'].strftime('今日')
@@ -265,7 +267,8 @@ def draw(dr_imgBlk, dr_imgRed):
         dateStrPrev = dateStr
         isSameDate = False
     
-    dr_imgBlk.line(((260, 390), (840, 390)), 0, 1)
+    lastLineY = ss.margin + 75 * dispNum - 5
+    dr_imgBlk.line(((260, lastLineY), (840, lastLineY)), 0, 1)
 
     return dr_imgBlk, dr_imgRed
 
