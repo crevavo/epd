@@ -227,9 +227,9 @@ def draw(dr_imgBlk, dr_imgRed):
             titleStr = titleStr[0] + " *" * len(titleStr)
             locationStr = " *" * len(locationStr)
 
-        if start.day == ss.dtnow.day:
+        if start.day == datetime.datetime.now().day:
             dateStr = e['start'].strftime('今日')
-        elif start.day == ss.dtnow.day + 1:
+        elif start.day == datetime.datetime.now().day + 1:
             dateStr = e['start'].strftime('明日')
 
         if dateStr == dateStrPrev:
