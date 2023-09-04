@@ -4,7 +4,7 @@ from PIL import ImageFont
 
 # - Func setting -----
 debug = True
-dtnow = datetime.datetime(2023,3,8,11)
+dtnow = datetime.datetime.now()
 visitormode = False
 
 
@@ -50,6 +50,8 @@ gcDict = {
 calenderIds = ['alice@gmail.com', 'bob@gmail.com']
 gcaljson = 'googlecalender.json'
 
+# - Train info setting -----
+trainUrl = "https://transit.yahoo.co.jp/diainfo/21/0"
 
 # - Utility functions -----
 def limitTextLength(text, len):
