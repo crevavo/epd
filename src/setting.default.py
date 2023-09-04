@@ -15,14 +15,15 @@ srcdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__)
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-fontBLL = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 96)
+fontBLL = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 140)
 fontBL = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 48)
-fontBS = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 24)
+fontBM = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 28)
+fontBS = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Bold.ttf'), 22)
 fontNL = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Normal.ttf'), 48)
-fontNM = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Normal.ttf'), 32)
+fontNM = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Normal.ttf'), 28)
 fontNS = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Normal.ttf'), 24)
 fontNSS = ImageFont.truetype(os.path.join(picdir, 'GenShinGothic-Normal.ttf'), 12)
-fontWIL = ImageFont.truetype(os.path.join(picdir, 'weathericons-regular-webfont.ttf'), 76)
+fontWIL = ImageFont.truetype(os.path.join(picdir, 'weathericons-regular-webfont.ttf'), 68)
 fontWIS = ImageFont.truetype(os.path.join(picdir, 'weathericons-regular-webfont.ttf'), 42)
 
 epdWid = 880

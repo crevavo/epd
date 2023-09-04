@@ -41,7 +41,8 @@ def draw(dr_imgBlk, dr_imgRed):
     else:
         dr_imgRed.text((centerX, 70), str(dtnow.day), 0, ss.fontBLL, align="center", anchor="mt")
         dr_imgRed.text((centerX, 195), dtnow.strftime('%A'), 0, ss.fontBM, align="center", anchor="mt")
-        dr_imgRed.text((centerX, 230), holidayName, 0, ss.fontBS, align="center", anchor="ma")
+        if holidayName:
+            dr_imgRed.text((centerX, 230), holidayName, 0, ss.fontBS, align="center", anchor="ma")
 
     footnotes = 'LAST UPDATE: ' + dtnow.strftime('%Y-%m-%d %H:%M:%S')
     temp = raspifuncs.getCpuTemp()
