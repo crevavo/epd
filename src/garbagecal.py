@@ -9,10 +9,10 @@ def draw(dr_imgBlk, dr_imgRed):
 
     if dtnow.hour <= 10:
         gdt = dtnow
-        gdatelabel = '▲ きょう朝\n'
+        gdatelabel = '《 きょう朝 》\n'
     else:
         gdt = dtnow + datetime.timedelta(days=1)
-        gdatelabel = '■ あす朝\n'
+        gdatelabel = '（ あす朝 ）\n'
 
     dow = gdt.weekday()
     nth = (gdt.day - 1) // 7 + 1
@@ -31,8 +31,10 @@ def draw(dr_imgBlk, dr_imgRed):
     if len(glabel) <= 0:
         glabel.append('回収なし')
 
-    py = 240
+    py = 290
+    centerX = 130
+
     gstr = gdatelabel + '\n'.join(glabel)
-    dr_imgBlk.text((ss.margin*1 + ss.colWid*0, py-30), gstr, 0, ss.fontNM)
+    dr_imgBlk.text((centerX, py), gstr, 0, ss.fontNS, align="center", anchor="ma")
 
     return dr_imgBlk, dr_imgRed

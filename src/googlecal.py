@@ -53,6 +53,24 @@ def getRequiredData(eventsList, calenderName):
 
 
 def getEvents():
+    """
+    Googleカレンダーからイベント情報を取得する関数
+
+    Returns:
+        list: Googleカレンダーから取得したイベント情報のリスト。
+        各イベントは辞書形式で表され、開始時刻でソートしてリストに入っている。
+            'calendar': 'calendarのID', 
+            'title': 'イベントの件名', 
+            'start': datetime.datetime(), 
+            'end': datetime.datetime(),
+            'isAllDay': False, 
+            'location': '場所の名前', 
+            'id': 'title + start + end'
+
+    Raises:
+        Exception: カレンダーからイベント情報を取得できなかった場合に発生する例外。
+    """
+
     SCOPES = ['https://www.googleapis.com/auth/calendar']
     calenderIds = ss.calenderIds
     gapi_creds = google.auth.load_credentials_from_file(
@@ -101,10 +119,8 @@ def getEvents():
 
     return uniqEvents
 
-def draw(dr_imgBlk, dr_imgRed):
+def drawV1(dr_imgBlk, dr_imgRed):
     events = getEvents()
-
-    
 
     # 来客モード Visitor mode
     visitormode = ss.visitormode
@@ -161,6 +177,86 @@ def draw(dr_imgBlk, dr_imgRed):
             dr_imgBlk.text((px + 50, py + 60), location, 0, ss.fontNS)
 
     return dr_imgBlk, dr_imgRed
+
+def draw(dr_imgBlk, dr_imgRed):
+    events = getEvents()
+    
+    # 来客モード Visitor mode
+    visitormode = ss.visitormode
+
+    jst = pytz.timezone('Asia/Tokyo')
+    if ss.debug:
+        dn = jst.localize(ss.dtnow)
+    else:
+        dn = datetime.datetime.now()
+        dn = jst.localize(dn)
+
+    for _e in events:
+        title = _e['title']
+        if title.startswith('来客'):
+            start = _e['start']
+            end = _e['end']
+            if start <= dn <= end:
+                visitormode = True
+
+
+    dateStrPrev = ''
+    isSameDate = False
+    for i in range(5):
+        if len(events) <= i:
+            continue
+
+        # 描画初期位置
+        e = events[i]
+        px = 250
+        py = ss.margin + 75 * i
+
+        # １イベントデータ
+        dateStr = e['start'].strftime('%-d\n%a')
+        calname = e['calendar'][:2].capitalize()
+        start = e['start']
+        end = e['end']
+        titleStr = ss.limitTextLength(e['title'], 30)
+        locationStr = ss.limitTextLength(e['location'], 30)
+
+        # １イベントデータ調整
+        if visitormode:
+            titleStr = titleStr[0] + "******"
+            locationStr = "*****"
+
+        if dateStr == dateStrPrev:
+            isSameDate = True
+            
+        timeStr = ''
+        if e['isAllDay']:
+            timeStr = '終日'
+        elif start.date() == end.date():
+            timeStr = f"{start.strftime('%H:%M')}\n{end.strftime('%H:%M')}"
+        else:
+            timeStr = f"{start.strftime('%H:%M')}\n{end.strftime('%-m/%-d %-H:%M')}"
+
+        evntStr = titleStr + "\n" + locationStr
+
+        # 描画
+        # Col 1
+        if not isSameDate:
+            dr_imgBlk.text((270, py), dateStr, 0, ss.fontBS, align='center')
+        dr_imgBlk.text((330, py), timeStr, 0, ss.fontNS)
+        dr_imgBlk.text((410, py), calname, 0, ss.fontNS)
+        dr_imgBlk.text((460, py), evntStr, 0, ss.fontNS)
+
+        if not isSameDate:
+            dr_imgBlk.line(((260, py-5), (840, py-5)), 0, 1)
+        else:
+            dr_imgBlk.line(((320, py-5), (840, py-5)), 0, 1)
+
+        dateStrPrev = dateStr
+        isSameDate = False
+    
+    dr_imgBlk.line(((260, 390), (840, 390)), 0, 1)
+
+    return dr_imgBlk, dr_imgRed
+
 
 if __name__ == "__main__":
     events = getEvents()

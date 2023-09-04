@@ -40,35 +40,42 @@ def getOWMdata():
     return d
 
 def draw(dr_imgBlk, dr_imgRed, d):
-    # - Display TODAY
+
+    centerY = 455
+
+    # ---- Display TODAY
     wtoday = d['daily'][0]
     owmdt = datetime.datetime.fromtimestamp(wtoday['dt'])
     owmid = wtoday['weather'][0]['id']
     wicon = getWheatherIconUnicode(owmid, owmdt)
     if owmid >= 800:
-        dr_imgRed.text((ss.margin*2 + ss.colWid*1, 100), chr(wicon), 0, ss.fontWIL)
+        dr_imgRed.text((90, centerY), chr(wicon), 0, ss.fontWIL, align="center", anchor="mm")
     else:
-        dr_imgBlk.text((ss.margin*2 + ss.colWid*1, 100), chr(wicon), 0, ss.fontWIL)
+        dr_imgBlk.text((90, centerY), chr(wicon), 0, ss.fontWIL, align="center", anchor="mm")
 
     tempStr = f"{wtoday['temp']['max']:.0f} ℃\n{wtoday['temp']['min']:.0f} ℃"
-    dr_imgBlk.text((ss.margin*2  + ss.colWid*1 + 120, 111), tempStr, 0, ss.fontNM)
+    dr_imgBlk.text((170, centerY), tempStr, 0, ss.fontNM, align="right", anchor="lm")
 
-    # - Display Tomorrow forecast
-    wtomorrow = d['daily'][1]
-    owmdt = datetime.datetime.fromtimestamp(wtomorrow['dt'])
-    owmid = wtomorrow['weather'][0]['id']
-    wicon = getWheatherIconUnicode(owmid, owmdt)
+    # ---- Display Tomorrow forecast
+    # wtomorrow = d['daily'][1]
+    # owmdt = datetime.datetime.fromtimestamp(wtomorrow['dt'])
+    # owmid = wtomorrow['weather'][0]['id']
+    # wicon = getWheatherIconUnicode(owmid, owmdt)
 
-    if owmid >= 800:
-        dr_imgRed.text((ss.margin*1 + ss.colWid*2, 100), chr(wicon), 0, ss.fontWIL)
-    else:
-        dr_imgBlk.text((ss.margin*1 + ss.colWid*2, 100), chr(wicon), 0, ss.fontWIL)
+    # if owmid >= 800:
+    #     dr_imgRed.text((ss.margin*1 + ss.colWid*2, 100), chr(wicon), 0, ss.fontWIL)
+    # else:
+    #     dr_imgBlk.text((ss.margin*1 + ss.colWid*2, 100), chr(wicon), 0, ss.fontWIL)
 
-    tempStr = f"{wtomorrow['temp']['max']:.0f} ℃\n{wtomorrow['temp']['min']:.0f} ℃"
-    dr_imgBlk.text((ss.margin*2 + ss.colWid*2 + 120, 110), tempStr, 0, ss.fontNM)
+    # tempStr = f"{wtomorrow['temp']['max']:.0f} ℃\n{wtomorrow['temp']['min']:.0f} ℃"
+    # dr_imgBlk.text((ss.margin*2 + ss.colWid*2 + 120, 110), tempStr, 0, ss.fontNM)
 
-    # - Display 3 Hours forecast
-    lcolWid = (ss.colWid*2) / 5
+    # ---- Display 3 Hours forecast
+    
+    xstr = 270
+    xend = 840
+    lcolWid = (xend - xstr) / 5
+    lcolOffset = lcolWid / 2
 
     for i in range(5):
         whour = d['hourly'][i*3]
@@ -78,20 +85,23 @@ def draw(dr_imgBlk, dr_imgRed, d):
         hourStr = owmdt.strftime('%-H:%M')
         tempStr = f"{whour['temp']:.0f} ℃"
 
-        px = ss.margin + ss.colWid + lcolWid*i
-        py = 240
+        px = xstr + lcolOffset + lcolWid * i
+        pyUpper = centerY - 30
+        pyLower = centerY + 20
 
         if 6 <= owmdt.hour <= 18:
-            ss.textCenter(dr_imgBlk, (px + lcolWid * 0.5, py), hourStr, 0, ss.fontBS)
+            dr_imgBlk.text((px, pyUpper), hourStr, 0, ss.fontBS, align="center", anchor="mm")
         else:
-            ss.textCenter(dr_imgBlk, (px + lcolWid * 0.5, py), hourStr, 0, ss.fontNS)
+            dr_imgBlk.text((px, pyUpper), hourStr, 0, ss.fontNS, align="center", anchor="mm")
 
         if owmid >= 800:
-            ss.textCenter(dr_imgRed, (px + lcolWid/2, py+50), chr(wicon), 0, ss.fontWIS)
+            dr_imgRed.text((px, pyLower), chr(wicon), 0, ss.fontWIS, align="center", anchor="mm")
+            # ss.textCenter(dr_imgRed, (px + lcolWid/2, py+50), chr(wicon), 0, ss.fontWIS)
         else:
-            ss.textCenter(dr_imgBlk, (px + lcolWid/2, py+50), chr(wicon), 0, ss.fontWIS)
+            dr_imgBlk.text((px, pyLower), chr(wicon), 0, ss.fontWIS, align="center", anchor="mm")
+            # ss.textCenter(dr_imgBlk, (px + lcolWid/2, py+50), chr(wicon), 0, ss.fontWIS)
         
-        ss.textCenter(dr_imgBlk, (px + lcolWid/2, py+100), tempStr, 0, ss.fontNS)
+        # ss.textCenter(dr_imgBlk, (px + lcolWid/2, py+100), tempStr, 0, ss.fontNS)
 
     return dr_imgBlk, dr_imgRed
 

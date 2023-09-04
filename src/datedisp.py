@@ -21,25 +21,27 @@ def draw(dr_imgBlk, dr_imgRed):
     locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
 
     dtnow = datetime.datetime.now()
-    dttmr = dtnow + datetime.timedelta(days=1)
+    # dttmr = dtnow + datetime.timedelta(days=1)
 
     if ss.debug:
         dtnow = ss.dtnow
-        dttmr = dtnow + datetime.timedelta(days=1)
+        # dttmr = dtnow + datetime.timedelta(days=1)
     
     holidayName = getHolidayName(dtnow)
+    isWeekday = True
+    if holidayName or dtnow.weekday() > 4:
+        isWeekday = False
 
-    dr_imgBlk.text((ss.margin, 5), dtnow.strftime('%Y-%m'), font = ss.fontNL, fill = 0)
+    centerX = 130
+    dr_imgBlk.text((centerX, ss.margin), dtnow.strftime('%Y年 %-m月'), font=ss.fontNM, full=0, align="center", anchor="mt")
 
-    if holidayName:
-        dr_imgRed.text((220, 15), holidayName, 0, ss.fontNM)
-
-    ss.textCenter(dr_imgBlk, (100, 125), str(dtnow.day), 0, ss.fontBLL)
-    dr_imgRed.text((ss.margin + 170, 110), dtnow.strftime('%a'), 0, ss.fontBL)
-
-    dtFormat = '%-m / %-d (%a)'
-    # dr_imgBlk.text((s.margin + colWid*0, s.margin), dtnow.strftime(dtFormat), font = s.fontBL, fill = 0)
-    # dr_imgBlk.text((s.margin + colWid*2, s.margin), dttmr.strftime(dtFormat), font = s.fontBL, fill = 0)
+    if isWeekday:
+        dr_imgBlk.text((centerX, 70), str(dtnow.day), 0, ss.fontBLL, align="center", anchor="mt")
+        dr_imgBlk.text((centerX, 195), dtnow.strftime('%A'), 0, ss.fontBM, align="center", anchor="mt")
+    else:
+        dr_imgRed.text((centerX, 70), str(dtnow.day), 0, ss.fontBLL, align="center", anchor="mt")
+        dr_imgRed.text((centerX, 195), dtnow.strftime('%A'), 0, ss.fontBM, align="center", anchor="mt")
+        dr_imgRed.text((centerX, 230), holidayName, 0, ss.fontBS, align="center", anchor="ma")
 
     footnotes = 'LAST UPDATE: ' + dtnow.strftime('%Y-%m-%d %H:%M:%S')
     temp = raspifuncs.getCpuTemp()
